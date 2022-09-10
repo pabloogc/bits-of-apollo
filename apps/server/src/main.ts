@@ -1,18 +1,25 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
+import {ApolloServer} from "apollo-server";
+import {ApolloServerPluginLandingPageLocalDefault} from "apollo-server-core";
+import {buildASTSchema} from "graphql/utilities";
+import {schema} from "schema";
 
-import * as express from 'express';
+const resolvers = {
+  Query: {
+    shows: () => [],
+  },
+};
 
-const app = express();
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to server!' });
+const server = new ApolloServer({
+  schema: buildASTSchema(schema),
+  resolvers: resolvers,
+  csrfPrevention: true,
+  cache: "bounded",
+  plugins: [
+    ApolloServerPluginLandingPageLocalDefault({embed: true}),
+  ],
 });
 
-const port = process.env.port || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+server.listen().then(({url}) => {
+  console.log(`🚀  Server ready at ${url}`);
 });
-server.on('error', console.error);
