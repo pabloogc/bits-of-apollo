@@ -3,7 +3,9 @@
   "files": [],
   "include": [],
   "compilerOptions": {
-    "baseUrl": "src"
+    "baseUrl": "src",
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true
   },
   "references": [
     {
