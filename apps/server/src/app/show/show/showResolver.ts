@@ -1,9 +1,10 @@
-import {Show} from "app/show/show/show";
+import {Show, ShowState} from "app/show/show/show";
 import {Container} from "typedi";
 import {ID} from "core/scalars";
-import {ProductInput} from "app/show/product/product";
+import {Product, ProductInput} from "app/show/product/product";
 import {User} from "app/user/user";
 import {ShowService} from "app/show/show/showService";
+import {RequestContext} from "core/requestContext";
 
 export const showResolver = {
   Query: {
@@ -14,23 +15,29 @@ export const showResolver = {
   },
 
   Mutation: {
-    createShow(): Show {
-      throw "TODO";
+    async createShow(parent, args, context: RequestContext): Promise<Show> {
+      const service = Container.get(ShowService);
+      return service.createShow(context.user);
     },
 
-    addProductToShow(showId: ID, product: ProductInput): Show {
-      throw "TODO";
+    async addProductToShow(_, args: { showID: ID, product: ProductInput }): Promise<Show | undefined> {
+      const service = Container.get(ShowService);
+      console.log(args);
+      await service.addProduct(args.showID, {name: args.product.name, showID: args.showID});
+      return service.getShow(args.showID);
     },
 
-    startShow(showID: ID): Show {
-      throw "TODO";
+    async startShow(_, args: { showID: ID }): Promise<Show | undefined> {
+      const service = Container.get(ShowService);
+      return service.updateShow(args.showID, {state: ShowState.IN_PROGRESS});
     },
 
-    completeShow(showID: ID): Show {
-      throw "TODO";
+    async completeShow(_, args: { showID: ID }): Promise<Show | undefined> {
+      const service = Container.get(ShowService);
+      return service.updateShow(args.showID, {state: ShowState.COMPLETED});
     },
 
-    startProductAuction(showID: ID, productID: ID): Show {
+    startProductAuction(_, args: { showID: ID, productID: ID }): Promise<Show | undefined> {
       throw "TODO";
     },
   },
@@ -43,6 +50,11 @@ export const showResolver = {
       return {
         id: parent.ownerID,
       };
+    },
+
+    async products(parent: Show): Promise<Product[]> {
+      const service = Container.get(ShowService);
+      return service.getProductsFromShow(parent.id);
     },
   },
 };

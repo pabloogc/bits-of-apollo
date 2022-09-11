@@ -1,7 +1,4 @@
 import {ID} from "core/scalars";
-import {User} from "app/user/user";
-import {Product} from "app/show/product/product";
-import {Auction} from "app/show/auction/auction";
 import {gql} from "apollo-server";
 
 export const showTypeDef = gql`
@@ -16,8 +13,8 @@ export const showTypeDef = gql`
     ownerID: ID!
     owner: User!
     state: ShowState
-    products: [Product!]!
-    auctions: [Auction!]!
+    products: [Product!]
+    auctions: [Auction!]
   }
 
   input CreateShowInput {
@@ -31,7 +28,7 @@ export const showTypeDef = gql`
 
   extend type Mutation {
     createShow: Show
-    addProductToShow(showId: ID!, product: ProductInput!): Show
+    addProductToShow(showID: ID!, product: ProductInput!): Show
     startAuction(showID: ID!, auctionInput: StartAuctionInput): Show
     startShow(showID: ID!): Show
     completeShow(showID: ID!): Show
@@ -51,8 +48,5 @@ export enum ShowState {
 export interface Show {
   id: ID;
   ownerID: ID;
-  owner: User | undefined;
   state: ShowState;
-  products: Product[];
-  auctions: Auction[];
 }

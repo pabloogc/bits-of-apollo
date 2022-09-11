@@ -9,13 +9,18 @@
   },
   "private": true,
   "dependencies": {
+    "@graphql-tools/schema": "^9.0.4",
     "apollo-server": "^3.10.2",
+    "apollo-server-core": "^3.10.2",
     "express": "^4.18.1",
     "graphql": "^16.6.0",
+    "graphql-subscriptions": "^2.0.0",
+    "graphql-ws": "^5.10.1",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "tslib": "^2.3.0",
-    "typedi": "^0.10.0"
+    "typedi": "^0.10.0",
+    "ws": "^8.8.1"
   },
   "devDependencies": {
     "@nrwl/cli": "14.7.3",

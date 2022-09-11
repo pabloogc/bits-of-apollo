@@ -20,4 +20,6 @@ export interface ProductInput {
 
 export class Product {
   id: ID;
+  showID: ID;
+  name: string;
 }

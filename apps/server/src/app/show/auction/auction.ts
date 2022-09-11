@@ -1,10 +1,8 @@
 import {gql} from "apollo-server";
 import {ID} from "core/scalars";
-import {Product} from "app/show/product/product";
-import {User} from "app/user/user";
 
 export const auctionTypeDef = gql`
-  # Auctions
+
   enum AuctionState {
     NOT_STARTED
     IN_PROGRESS
@@ -41,10 +39,9 @@ enum AuctionState {
 
 export interface Auction {
   id: ID;
+  showID: ID;
   productID: ID;
-  product: Product;
   highestBidderID: ID;
-  highestBidder: User;
   currentBid: number;
   finishesAt: string;
   state: AuctionState;
