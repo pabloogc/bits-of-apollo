@@ -21,13 +21,19 @@ export const auctionTypeDef = gql`
   }
 
   input StartAuctionInput {
+    showID: ID!
     productId: ID!
-    startingBig: Int!
+    startingBid: Int!
+  }
+
+  input BidAuctionInput {
+    auctionID: ID!
+    bid: Int!
   }
 
   extend type Mutation {
-    startProductAuction(showID: ID!, productID: ID!): Show
-    bidToAuction(auctionID: ID!): Auction
+    startAuction(input: StartAuctionInput!): Show
+    bidToAuction(input: BidAuctionInput!): Auction
   }
 `;
 

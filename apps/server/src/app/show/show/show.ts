@@ -17,19 +17,18 @@ export const showTypeDef = gql`
     auctions: [Auction!]
   }
 
-  input CreateShowInput {
-    products: [ProductInput!]!
-    startsAt: String
-  }
-
   extend type Query {
     shows: [Show!]
   }
 
+  input AddProductToShowInput {
+    showID: ID!
+    name: String!
+  }
+
   extend type Mutation {
     createShow: Show
-    addProductToShow(showID: ID!, product: ProductInput!): Show
-    startAuction(showID: ID!, auctionInput: StartAuctionInput): Show
+    addProductToShow(input: AddProductToShowInput!): Show
     startShow(showID: ID!): Show
     completeShow(showID: ID!): Show
   }

@@ -7,10 +7,6 @@ export const productTypeDef = gql`
     id: ID!
     name: String!
   }
-
-  input ProductInput {
-    name: String
-  }
 `;
 
 export interface ProductInput {

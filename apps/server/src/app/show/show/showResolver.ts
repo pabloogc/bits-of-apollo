@@ -1,7 +1,7 @@
 import {Show, ShowState} from "app/show/show/show";
 import {Container} from "typedi";
 import {ID} from "core/scalars";
-import {Product, ProductInput} from "app/show/product/product";
+import {Product} from "app/show/product/product";
 import {User} from "app/user/user";
 import {ShowService} from "app/show/show/showService";
 import {RequestContext} from "core/requestContext";
@@ -20,11 +20,10 @@ export const showResolver = {
       return service.createShow(context.user);
     },
 
-    async addProductToShow(_, args: { showID: ID, product: ProductInput }): Promise<Show | undefined> {
+    async addProductToShow(_, args: { input: { showID: ID, name: string } }): Promise<Show | undefined> {
       const service = Container.get(ShowService);
-      console.log(args);
-      await service.addProduct(args.showID, {name: args.product.name, showID: args.showID});
-      return service.getShow(args.showID);
+      await service.addProduct(args.input.showID, {name: args.input.name, showID: args.input.showID});
+      return service.getShow(args.input.showID);
     },
 
     async startShow(_, args: { showID: ID }): Promise<Show | undefined> {
@@ -35,10 +34,6 @@ export const showResolver = {
     async completeShow(_, args: { showID: ID }): Promise<Show | undefined> {
       const service = Container.get(ShowService);
       return service.updateShow(args.showID, {state: ShowState.COMPLETED});
-    },
-
-    startProductAuction(_, args: { showID: ID, productID: ID }): Promise<Show | undefined> {
-      throw "TODO";
     },
   },
 

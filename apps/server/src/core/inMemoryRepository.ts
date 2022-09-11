@@ -1,7 +1,7 @@
 import {Service} from "typedi";
 
 /**
- * Dumb and simple in-memory repository for different models.
+ * Dumb and simple in-memory repository for the different models of this sample.
  */
 @Service()
 export class InMemoryRepository<T extends { id: string }> {
