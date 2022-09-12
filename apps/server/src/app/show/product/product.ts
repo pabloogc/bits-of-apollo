@@ -1,20 +1,6 @@
-import {ID} from "core/scalars";
-import {gql} from "apollo-server";
+import { ID } from 'core/scalars';
 
-
-export const productTypeDef = gql`
-  type Product {
-    id: ID!
-    name: String!
-  }
-`;
-
-export interface ProductInput {
-  name: string;
-}
-
-
-export class Product {
+export interface Product {
   id: ID;
   showID: ID;
   name: string;

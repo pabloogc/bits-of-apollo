@@ -1,4 +1,4 @@
-import {Service} from "typedi";
+import { Service } from 'typedi';
 
 /**
  * Dumb and simple in-memory repository for the different models of this sample.
@@ -26,8 +26,8 @@ export class InMemoryRepository<T extends { id: string }> {
     return (await this.getAll()).filter(predicate);
   }
 
-  async insert(newItem: Omit<T, "id">): Promise<T> {
-    const toInsert = {...newItem, id: `${this.ids++}`} as T;
+  async insert(newItem: Omit<T, 'id'>): Promise<T> {
+    const toInsert = { ...newItem, id: `${this.ids++}` } as T;
     this.items.set(toInsert.id, toInsert);
     return toInsert;
   }
@@ -35,7 +35,7 @@ export class InMemoryRepository<T extends { id: string }> {
   async update(id: string, toUpdate: Partial<T>): Promise<T | undefined> {
     const current = this.items.get(id);
     if (current) {
-      const updated = {...current, ...toUpdate, id: id};
+      const updated = { ...current, ...toUpdate, id: id };
       this.items.set(id, updated);
       return updated;
     }
@@ -43,7 +43,8 @@ export class InMemoryRepository<T extends { id: string }> {
 
   async updateOrFail(id: string, toUpdate: Partial<T>): Promise<T> {
     const updated = await this.update(id, toUpdate);
-    if (updated === undefined) throw new Error(`Item with id ${id} not updated`);
+    if (updated === undefined)
+      throw new Error(`Item with id ${id} not updated`);
     return updated;
   }
 }

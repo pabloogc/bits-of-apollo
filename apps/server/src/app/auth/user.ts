@@ -1,5 +1,5 @@
-import {ID} from "core/scalars";
-import {gql} from "apollo-server";
+import { ID } from 'core/scalars';
+import { gql } from 'apollo-server-express';
 
 export const userTypeDef = gql`
   type User {

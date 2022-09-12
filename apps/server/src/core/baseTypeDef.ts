@@ -1,4 +1,4 @@
-import {gql} from "apollo-server";
+import { gql } from 'apollo-server-express';
 
 export const baseTypeDef = gql`
   # Empty types extended by the other files

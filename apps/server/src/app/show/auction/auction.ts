@@ -1,49 +1,9 @@
-import {gql} from "apollo-server";
-import {ID} from "core/scalars";
-import {User} from "app/user/user";
-
-export const auctionTypeDef = gql`
-
-  enum AuctionState {
-    IN_PROGRESS
-    COMPLETED
-  }
-
-  type Auction {
-    id: ID!
-    productID: ID!
-    product: Product!
-    highestBidderID: ID
-    highestBidder: User
-    currentBid: Int
-    finishesAt: String
-    state: AuctionState
-  }
-
-  input StartAuctionInput {
-    showID: ID!
-    productID: ID!
-    startingBid: Int!
-  }
-
-  input BidAuctionInput {
-    auctionID: ID!
-    bid: Int!
-  }
-
-  extend type Mutation {
-    startAuction(input: StartAuctionInput!): Show
-    bidToAuction(input: BidAuctionInput!): Auction
-  }
-
-  extend type Subscription  {
-    auctionUpdated(auctionID: ID!): Auction
-  }
-`;
+import { ID } from 'core/scalars';
+import { User } from 'app/auth/user';
 
 export enum AuctionState {
-  IN_PROGRESS = "IN_PROGRESS",
-  COMPLETED = "COMPLETED",
+  IN_PROGRESS = 'IN_PROGRESS',
+  COMPLETED = 'COMPLETED',
 }
 
 export interface StartAuctionInput {
@@ -53,7 +13,7 @@ export interface StartAuctionInput {
 }
 
 export interface BidAuctionInput {
-  user: User,
+  user: User;
   auctionID: ID;
   bid: number;
 }

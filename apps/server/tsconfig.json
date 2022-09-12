@@ -3,6 +3,9 @@
   "files": [],
   "include": [],
   "compilerOptions": {
+    "module": "es2022",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "baseUrl": "src",
     "emitDecoratorMetadata": true,
     "strictNullChecks": true

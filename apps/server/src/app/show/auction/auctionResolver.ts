@@ -1,17 +1,30 @@
-import {ID} from "core/scalars";
-import {Container} from "typedi";
-import {AuctionService} from "app/show/auction/auctionService";
-import {Auction, BidAuctionInput, StartAuctionInput} from "app/show/auction/auction";
-import {RequestContext} from "core/requestContext";
+import { ID } from 'core/scalars';
+import { Container } from 'typedi';
+import { AuctionService } from 'app/show/auction/auctionService';
+import {
+  Auction,
+  BidAuctionInput,
+  StartAuctionInput,
+} from 'app/show/auction/auction';
+import { RequestContext } from 'core/requestContext';
+import { withFilter } from 'graphql-subscriptions';
+import { NotificationService } from 'app/notification/notificationService';
 
 export const auctionResolver = {
   Mutation: {
-    async startAuction(_, args: { input: StartAuctionInput }): Promise<Auction | undefined> {
+    async startAuction(
+      _,
+      args: { input: StartAuctionInput }
+    ): Promise<Auction | undefined> {
       const service = Container.get(AuctionService);
       return await service.startAuction(args.input);
     },
 
-    async bidToAuction(_, args: { input: BidAuctionInput }, context: RequestContext): Promise<Auction | undefined> {
+    async bidToAuction(
+      _,
+      args: { input: BidAuctionInput },
+      context: RequestContext
+    ): Promise<Auction | undefined> {
       const service = Container.get(AuctionService);
       return service.bidToAuction({
         user: context.user,
@@ -22,8 +35,14 @@ export const auctionResolver = {
   },
 
   Subscription: {
-    auctionUpdated(_, auctionID: ID): Auction {
-      throw "TODO";
+    auctionUpdated: {
+      subscribe: withFilter(
+        () => Container.get(NotificationService).auctionsStream(),
+        (payload: Auction, variables: { auctionID: ID }) => {
+          return payload.id === variables.auctionID;
+        }
+      ),
+      resolve: (payload) => payload, // The body is the auction itself, so just return it
     },
   },
 };
