@@ -32,10 +32,6 @@ export const showTypeDef = gql`
     startShow(showID: ID!): Show
     completeShow(showID: ID!): Show
   }
-
-  extend type Subscription {
-    showUpdated(showID: ID!): Show
-  }
 `;
 
 export enum ShowState {

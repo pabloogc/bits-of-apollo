@@ -5,6 +5,7 @@ import {Service} from "typedi";
  */
 @Service()
 export class InMemoryRepository<T extends { id: string }> {
+  private ids = 0;
   private items = new Map<string, T>();
 
   async getAll(): Promise<T[]> {
@@ -13,7 +14,7 @@ export class InMemoryRepository<T extends { id: string }> {
 
   async findOneOrFail(id: string): Promise<T> {
     const out = await this.findOne(id);
-    if (out === undefined) throw new Error(`Item with ${id} not found`);
+    if (out === undefined) throw new Error(`Item with id ${id} not found`);
     return out;
   }
 
@@ -26,7 +27,7 @@ export class InMemoryRepository<T extends { id: string }> {
   }
 
   async insert(newItem: Omit<T, "id">): Promise<T> {
-    const toInsert = {...newItem, id: `${this.items.size}`} as T;
+    const toInsert = {...newItem, id: `${this.ids++}`} as T;
     this.items.set(toInsert.id, toInsert);
     return toInsert;
   }
@@ -38,5 +39,11 @@ export class InMemoryRepository<T extends { id: string }> {
       this.items.set(id, updated);
       return updated;
     }
+  }
+
+  async updateOrFail(id: string, toUpdate: Partial<T>): Promise<T> {
+    const updated = await this.update(id, toUpdate);
+    if (updated === undefined) throw new Error(`Item with id ${id} not updated`);
+    return updated;
   }
 }

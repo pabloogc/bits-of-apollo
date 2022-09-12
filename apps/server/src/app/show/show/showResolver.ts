@@ -5,6 +5,7 @@ import {Product} from "app/show/product/product";
 import {User} from "app/user/user";
 import {ShowService} from "app/show/show/showService";
 import {RequestContext} from "core/requestContext";
+import {Auction} from "app/show/auction/auction";
 
 export const showResolver = {
   Query: {
@@ -22,7 +23,7 @@ export const showResolver = {
 
     async addProductToShow(_, args: { input: { showID: ID, name: string } }): Promise<Show | undefined> {
       const service = Container.get(ShowService);
-      await service.addProduct(args.input.showID, {name: args.input.name, showID: args.input.showID});
+      await service.addProduct({name: args.input.name, showID: args.input.showID});
       return service.getShow(args.input.showID);
     },
 
@@ -50,6 +51,11 @@ export const showResolver = {
     async products(parent: Show): Promise<Product[]> {
       const service = Container.get(ShowService);
       return service.getProductsFromShow(parent.id);
+    },
+
+    async auctions(parent: Show): Promise<Auction[]> {
+      const service = Container.get(ShowService);
+      return service.getAuctionsFromShow(parent.id);
     },
   },
 };

@@ -1,12 +1,28 @@
 import {ID} from "core/scalars";
-import {Show} from "app/show/show/show";
 import {Container} from "typedi";
 import {AuctionService} from "app/show/auction/auctionService";
+import {Auction, BidAuctionInput, StartAuctionInput} from "app/show/auction/auction";
+import {RequestContext} from "core/requestContext";
 
 export const auctionResolver = {
   Mutation: {
-    startAuction(_, args: { input: { showID: ID, productID: ID } }): Promise<Show | undefined> {
+    async startAuction(_, args: { input: StartAuctionInput }): Promise<Auction | undefined> {
       const service = Container.get(AuctionService);
+      return await service.startAuction(args.input);
+    },
+
+    async bidToAuction(_, args: { input: BidAuctionInput }, context: RequestContext): Promise<Auction | undefined> {
+      const service = Container.get(AuctionService);
+      return service.bidToAuction({
+        user: context.user,
+        auctionID: args.input.auctionID,
+        bid: args.input.bid,
+      });
+    },
+  },
+
+  Subscription: {
+    auctionUpdated(_, auctionID: ID): Auction {
       throw "TODO";
     },
   },
