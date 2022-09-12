@@ -48,7 +48,8 @@ export const showResolver = {
     owner(parent: Show): User {
       // Resolving a user is quite dumb here since they
       // don't have any extra data, but here it's
-      // where a query to the proper userService would happen
+      // where a query to the proper userService / dataLoader would happen
+      // similar to de the products / auctions
       return {
         id: parent.ownerID,
       };
