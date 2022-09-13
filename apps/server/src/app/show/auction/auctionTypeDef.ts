@@ -29,7 +29,7 @@ export const auctionTypeDef = gql`
   }
 
   extend type Mutation {
-    startAuction(input: StartAuctionInput!): Show
+    startAuction(input: StartAuctionInput!): Auction
     bidToAuction(input: BidAuctionInput!): Auction
   }
 
