@@ -19,10 +19,18 @@ countless times and instead focus on what I consider critical decisions
 When writing GraphQL applications one of the most difficult tasks I usually encountered
 is organizing the project in a way that makes sense for the long run, in this case I opted for
 
-* folder<=>feature structure keeping related models, services, resolvers together when it makes sense.
+* Layered architecture 
 
-I always enjoyed the ideas of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
-despite the complexity it comes with some general concepts like code organization I find very practical.
+For this scenario I decided to go with a very common layered architecture, where the request is resolved in a common pattern 
+of request => resolver => service => repository operations + notifications => response.
+
+In the case of a bidding app like bits an event based architure would probably allow for easier scaling, better concurrency
+control at the cost of code complexity or having to use external libraries.
+
+I always enjoyed the ideas of [hexagonal architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)), 
+despite the complexity it introduces. Some general concepts like code organization I find very practical. Abstracting away
+graphql would have a huge upfront cost but the code of this demo is still design around that idea, don't leak the existence of
+a request of any kind into the service layers.
 
 * schema-first
   I opted for a schema first approach, when the API evolves the GraphQL type the Entity type (Show, Auction...) will
