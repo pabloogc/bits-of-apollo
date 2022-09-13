@@ -175,6 +175,7 @@ mutation StartAuction($showID: ID!, $productID: ID!, $startingBid: Int!) {
 }
 
 mutation BidToAuction($auctionID: ID!, $bid: Int!) {
+  # If you have subscribed to the action before an update should be sent after you bid
   bidToAuction(input: {
     auctionID: $auctionID,
     bid: $bid
