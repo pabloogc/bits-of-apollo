@@ -6,6 +6,8 @@ export enum AuctionState {
   COMPLETED = 'COMPLETED',
 }
 
+// GraphQL Types
+
 export interface StartAuctionInput {
   showID: ID;
   productID: ID;
@@ -17,6 +19,8 @@ export interface BidAuctionInput {
   auctionID: ID;
   bid: number;
 }
+
+// Entity
 
 export interface Auction {
   id: ID;

@@ -42,7 +42,7 @@ export class ShowService {
   }
 
   async updateShow(id: ID, newShow: Partial<Show>): Promise<Show | undefined> {
-    return await this.showRepository.update(id, newShow);
+    return await this.showRepository.updateOrFail(id, newShow);
   }
 
   async addProduct(product: Omit<Product, 'id'>): Promise<Product | undefined> {

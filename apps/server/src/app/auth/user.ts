@@ -7,6 +7,9 @@ export const userTypeDef = gql`
   }
 `;
 
+/**
+ * Dummy model for a user, not really used since there is no real authentication
+ */
 export class User {
   id: ID;
   // ...

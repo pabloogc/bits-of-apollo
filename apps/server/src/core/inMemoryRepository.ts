@@ -5,6 +5,9 @@ import { Service } from 'typedi';
  */
 @Service()
 export class InMemoryRepository<T extends { id: string }> {
+  /**
+   * Auto incremented string ids
+   */
   private ids = 0;
   private items = new Map<string, T>();
 

@@ -8,7 +8,7 @@ import {
 } from 'app/show/auction/auction';
 import { RequestContext } from 'core/requestContext';
 import { withFilter } from 'graphql-subscriptions';
-import { NotificationService } from 'app/notification/notificationService';
+import { AuctionNotificationService } from 'app/show/auction/auctionNotificationService';
 
 export const auctionResolver = {
   Mutation: {
@@ -37,7 +37,7 @@ export const auctionResolver = {
   Subscription: {
     auctionUpdated: {
       subscribe: withFilter(
-        () => Container.get(NotificationService).auctionsStream(),
+        () => Container.get(AuctionNotificationService).auctionsUpdatedStream(),
         (payload: Auction, variables: { auctionID: ID }) => {
           return payload.id === variables.auctionID;
         }

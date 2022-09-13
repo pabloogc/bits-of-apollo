@@ -9,7 +9,7 @@ import { AuctionRepository } from 'app/show/auction/auctionRepository';
 import { ShowRepository } from 'app/show/show/showRepository';
 import { ProductRepository } from 'app/show/product/productRepository';
 import { cancelJob, scheduleJob } from 'node-schedule';
-import { NotificationService } from 'app/notification/notificationService';
+import { AuctionNotificationService } from 'app/show/auction/auctionNotificationService';
 
 const AUCTION_DEFAULT_DURATION = 60_000;
 const AUCTION_BID_EXTRA_TIME = 15_000;
@@ -20,7 +20,7 @@ export class AuctionService {
     private readonly showRepository: ShowRepository,
     private readonly productRepository: ProductRepository,
     private readonly auctionRepository: AuctionRepository,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: AuctionNotificationService
   ) {}
 
   async startAuction(input: StartAuctionInput) {
